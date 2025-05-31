@@ -279,6 +279,38 @@ button {
   max-width: 400px;
 }
 
+/* Checkout section styles */
+.checkout-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-top: 2px solid var(--primary-color);
+  background-color: white;
+}
+
+.cart-total {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.checkout-button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  font-family: var(--font-headline);
+}
+
+.checkout-button:hover {
+  background-color: var(--tertiary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
 
 @media screen and (min-width: 500px) {
   body {
