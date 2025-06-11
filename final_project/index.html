@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local Event Explorer</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&libraries=places" defer></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Local Event Explorer</h1>
+    <nav>
+      <button id="showLoginBtn">Login</button>
+      <button id="showRegisterBtn">Register</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+      <span id="welcomeMsg"></span>
+    </nav>
+  </header>
+
+  <section id="authSection">
+    <div id="loginForm" class="authForm" style="display:none;">
+      <h2>Login</h2>
+      <input type="text" id="loginUsername" placeholder="Username" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button id="loginSubmit">Login</button>
+      <p><a href="#" id="showRegisterLink">Don't have an account? Register</a></p>
+      <p id="loginError" class="error"></p>
+    </div>
+
+    <div id="registerForm" class="authForm" style="display:none;">
+      <h2>Register</h2>
+      <input type="text" id="registerUsername" placeholder="Username" />
+      <input type="password" id="registerPassword" placeholder="Password" />
+      <input type="text" id="registerInterests" placeholder="Your Interests (comma separated)" />
+      <button id="registerSubmit">Register</button>
+      <p><a href="#" id="showLoginLink">Already have an account? Login</a></p>
+      <p id="registerError" class="error"></p>
+    </div>
+  </section>
+
+  <section id="searchSection" style="display:none;">
+    <h2>Discover Events</h2>
+    <form id="searchForm">
+      <input type="text" id="locationInput" placeholder="Enter city or ZIP" />
+      <button type="button" id="detectLocationBtn">Detect My Location</button>
+      <input type="text" id="keywordInput" placeholder="Keyword (e.g. music, sports)" />
+      
+      <select id="categorySelect">
+        <option value="">All Categories</option>
+        <option value="music">Music</option>
+        <option value="sports">Sports</option>
+        <option value="arts">Arts & Theatre</option>
+      </select>
+
+      <select id="priceSelect">
+        <option value="">All Prices</option>
+        <option value="free">Free</option>
+        <option value="paid">Paid</option>
+      </select>
+
+      <input type="date" id="dateInput" />
+
+      <button type="submit">Search</button>
+    </form>
+  </section>
+
+  <section id="eventsSection" style="display:none;">
+    <h2>Events</h2>
+    <div id="eventsList"></div>
+  </section>
+
+  <section id="favoritesSection" style="display:none;">
+    <h2>My Favorites</h2>
+    <div id="favoritesList"></div>
+  </section>
+
+  <div id="eventModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div id="modalEventDetails"></div>
+      <div id="modalMap" style="height:300px; width:100%; margin-top:10px;"></div>
+    </div>
+  </div>
+
+</body>
+</html>
