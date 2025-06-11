@@ -22,8 +22,8 @@
   <section id="authSection">
     <div id="loginForm" class="authForm" style="display:none;">
       <h2>Login</h2>
-      <input type="text" id="loginUsername" placeholder="Username" />
-      <input type="password" id="loginPassword" placeholder="Password" />
+      <input type="text" id="loginUsername" placeholder="Username">
+      <input type="password" id="loginPassword" placeholder="Password">
       <button id="loginSubmit">Login</button>
       <p><a href="#" id="showRegisterLink">Don't have an account? Register</a></p>
       <p id="loginError" class="error"></p>
@@ -31,9 +31,9 @@
 
     <div id="registerForm" class="authForm" style="display:none;">
       <h2>Register</h2>
-      <input type="text" id="registerUsername" placeholder="Username" />
-      <input type="password" id="registerPassword" placeholder="Password" />
-      <input type="text" id="registerInterests" placeholder="Your Interests (comma separated)" />
+      <input type="text" id="registerUsername" placeholder="Username">
+      <input type="password" id="registerPassword" placeholder="Password">
+      <input type="text" id="registerInterests" placeholder="Your Interests (comma separated)">
       <button id="registerSubmit">Register</button>
       <p><a href="#" id="showLoginLink">Already have an account? Login</a></p>
       <p id="registerError" class="error"></p>
@@ -42,28 +42,7 @@
 
   <section id="searchSection" style="display:none;">
     <h2>Discover Events</h2>
-    <form id="searchForm">
-      <input type="text" id="locationInput" placeholder="Enter city or ZIP" />
-      <button type="button" id="detectLocationBtn">Detect My Location</button>
-      <input type="text" id="keywordInput" placeholder="Keyword (e.g. music, sports)" />
-      
-      <select id="categorySelect">
-        <option value="">All Categories</option>
-        <option value="music">Music</option>
-        <option value="sports">Sports</option>
-        <option value="arts">Arts & Theatre</option>
-      </select>
-
-      <select id="priceSelect">
-        <option value="">All Prices</option>
-        <option value="free">Free</option>
-        <option value="paid">Paid</option>
-      </select>
-
-      <input type="date" id="dateInput" />
-
-      <button type="submit">Search</button>
-    </form>
+    <p>Search functionality would require API keys</p>
   </section>
 
   <section id="eventsSection" style="display:none;">
@@ -76,13 +55,6 @@
     <div id="favoritesList"></div>
   </section>
 
-  <div id="eventModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span id="closeModal" class="close">&times;</span>
-      <div id="modalEventDetails"></div>
-      <div id="modalMap" style="height:300px; width:100%; margin-top:10px;"></div>
-    </div>
-  </div>
-
+  <script src="script.js"></script>
 </body>
 </html>
