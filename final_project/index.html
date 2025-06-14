@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Local Event Explorer</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&libraries=places" defer></script>
-  <script src="js/script.js" defer></script>
 </head>
 <body>
   <header>
-    <h1>Local Event Explorer</h1>
+    <a href="/sleepoutside/final_project/index.html">Local Event Explorer</a>
     <nav>
       <button id="showLoginBtn">Login</button>
       <button id="showRegisterBtn">Register</button>
@@ -19,6 +17,7 @@
     </nav>
   </header>
 
+  
   <section id="authSection">
     <div id="loginForm" class="authForm" style="display:none;">
       <h2>Login</h2>
@@ -42,12 +41,16 @@
 
   <section id="searchSection" style="display:none;">
     <h2>Discover Events</h2>
-    <p>Search functionality would require API keys</p>
+    <div id="eventSearchForm">
+      <input type="text" id="eventKeyword" placeholder="Search events...">
+      <input type="text" id="eventLocation" placeholder="City">
+      <button type="button" id="searchEventsBtn">Search</button>
+    </div>
   </section>
 
   <section id="eventsSection" style="display:none;">
-    <h2>Events</h2>
-    <div id="eventsList"></div>
+    <h2>Upcoming Events</h2>
+    <div id="eventsList" class="events-container"></div>
   </section>
 
   <section id="favoritesSection" style="display:none;">
@@ -55,6 +58,9 @@
     <div id="favoritesList"></div>
   </section>
 
-  <script src="script.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>

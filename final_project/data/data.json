@@ -1,0 +1,40 @@
+{
+  "events": [
+    {
+      "id": "evt1",
+      "name": "Jazz Night Under the Stars",
+      "date": "2023-12-15T19:00:00",
+      "venue": "Downtown Club",
+      "location": "123 Music Ave, Provo",
+      "price": 25.99,
+      "category": "Music",
+      "tags": ["jazz", "live", "music"],
+      "capacity": 150,
+      "organizer": "City Arts Foundation",
+      "description": "An enchanting evening of smooth jazz featuring award-winning local artists in an intimate setting.",
+      "image": "images/jazz-night.jpg",
+      "coordinates": { "lat": 40.2338, "lng": -111.6585 }
+    },
+    {
+      "id": "evt2",
+      "name": "Food Festival 2023",
+      "date": "2023-12-17T11:00:00",
+      "venue": "City Park",
+      "location": "500 Center St, Provo",
+      "price": 15.50,
+      "category": "Food",
+      "tags": ["food", "festival", "local"],
+      "capacity": 500,
+      "organizer": "Provo Culinary Society",
+      "description": "Sample delicious cuisines from 50+ local restaurants and food trucks.",
+      "image": "images/food-fest.jpg",
+      "coordinates": { "lat": 40.2456, "lng": -111.6453 }
+    }
+  ],
+  "categories": {
+    "music": { "name": "Music", "icon": "🎵" },
+    "food": { "name": "Food", "icon": "🍔" },
+    "sports": { "name": "Sports", "icon": "⚽" },
+    "arts": { "name": "Arts", "icon": "🎨" }
+  }
+}

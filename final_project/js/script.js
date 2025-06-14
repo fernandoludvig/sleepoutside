@@ -1,198 +1,221 @@
-// Remove as constantes de API que não serão usadas
-// Globals and DOM references
-const loginForm = document.getElementById("loginForm");
-const registerForm = document.getElementById("registerForm");
-const authSection = document.getElementById("authSection");
-const searchSection = document.getElementById("searchSection");
-const eventsSection = document.getElementById("eventsSection");
-const favoritesSection = document.getElementById("favoritesSection");
+// script.js - Main application controller
 
-const showLoginBtn = document.getElementById("showLoginBtn");
-const showRegisterBtn = document.getElementById("showRegisterBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const welcomeMsg = document.getElementById("welcomeMsg");
+// DOM References
+const domElements = {
+  loginForm: document.getElementById("loginForm"),
+  registerForm: document.getElementById("registerForm"),
+  authSection: document.getElementById("authSection"),
+  searchSection: document.getElementById("searchSection"),
+  eventsSection: document.getElementById("eventsSection"),
+  favoritesSection: document.getElementById("favoritesSection"),
+  showLoginBtn: document.getElementById("showLoginBtn"),
+  showRegisterBtn: document.getElementById("showRegisterBtn"),
+  logoutBtn: document.getElementById("logoutBtn"),
+  welcomeMsg: document.getElementById("welcomeMsg"),
+  loginUsername: document.getElementById("loginUsername"),
+  loginPassword: document.getElementById("loginPassword"),
+  loginSubmit: document.getElementById("loginSubmit"),
+  loginError: document.getElementById("loginError"),
+  registerUsername: document.getElementById("registerUsername"),
+  registerPassword: document.getElementById("registerPassword"),
+  registerInterests: document.getElementById("registerInterests"),
+  registerSubmit: document.getElementById("registerSubmit"),
+  registerError: document.getElementById("registerError"),
+  showRegisterLink: document.getElementById("showRegisterLink"),
+  showLoginLink: document.getElementById("showLoginLink"),
+  eventsList: document.getElementById("eventsList"),
+  favoritesList: document.getElementById("favoritesList")
+};
 
-const loginUsername = document.getElementById("loginUsername");
-const loginPassword = document.getElementById("loginPassword");
-const loginSubmit = document.getElementById("loginSubmit");
-const loginError = document.getElementById("loginError");
+// App State
+const appState = {
+  currentUser: null,
+  favorites: []
+};
 
-const registerUsername = document.getElementById("registerUsername");
-const registerPassword = document.getElementById("registerPassword");
-const registerInterests = document.getElementById("registerInterests");
-const registerSubmit = document.getElementById("registerSubmit");
-const registerError = document.getElementById("registerError");
+// Authentication Functions
+const auth = {
+  registerUser() {
+    const { registerUsername, registerPassword, registerInterests, registerError } = domElements;
+    const username = registerUsername.value.trim();
+    const password = registerPassword.value.trim();
+    const interests = registerInterests.value.trim();
 
-const showRegisterLink = document.getElementById("showRegisterLink");
-const showLoginLink = document.getElementById("showLoginLink");
+    registerError.textContent = "";
 
-let currentUser = null; // store current logged-in username
-let favorites = [];
+    if (!username || !password) {
+      registerError.textContent = "Please enter username and password.";
+      return;
+    }
 
-// Initialize app
+    if (localStorage.getItem(`user_${username}`)) {
+      registerError.textContent = "Username already exists.";
+      return;
+    }
+
+    const userData = {
+      password,
+      interests: interests ? interests.split(",").map(i => i.trim()) : [],
+      favorites: []
+    };
+
+    localStorage.setItem(`user_${username}`, JSON.stringify(userData));
+    alert("Registration successful! Please login.");
+    this.resetRegisterForm();
+  },
+
+  loginUser() {
+    const { loginUsername, loginPassword, loginError } = domElements;
+    const username = loginUsername.value.trim();
+    const password = loginPassword.value.trim();
+
+    loginError.textContent = "";
+
+    if (!username || !password) {
+      loginError.textContent = "Please enter username and password.";
+      return;
+    }
+
+    const userDataRaw = localStorage.getItem(`user_${username}`);
+    if (!userDataRaw) {
+      loginError.textContent = "User not found.";
+      return;
+    }
+
+    const userData = JSON.parse(userDataRaw);
+    if (userData.password !== password) {
+      loginError.textContent = "Incorrect password.";
+      return;
+    }
+
+    appState.currentUser = username;
+    this.saveCurrentUser();
+    this.resetLoginForm();
+  },
+
+  logoutUser() {
+    appState.currentUser = null;
+    this.saveCurrentUser();
+  },
+
+  saveCurrentUser() {
+    if (appState.currentUser) {
+      localStorage.setItem("currentUser", appState.currentUser);
+    } else {
+      localStorage.removeItem("currentUser");
+    }
+    ui.updateUIForAuth();
+  },
+
+  loadUserFromStorage() {
+    const savedUser = localStorage.getItem("currentUser");
+    if (savedUser) {
+      appState.currentUser = savedUser;
+    }
+  },
+
+  resetLoginForm() {
+    const { loginUsername, loginPassword } = domElements;
+    loginUsername.value = "";
+    loginPassword.value = "";
+  },
+
+  resetRegisterForm() {
+    const { registerUsername, registerPassword, registerInterests, registerForm, loginForm } = domElements;
+    registerForm.style.display = "none";
+    loginForm.style.display = "block";
+    registerUsername.value = "";
+    registerPassword.value = "";
+    registerInterests.value = "";
+  }
+};
+
+// UI Controller
+const ui = {
+  bindEvents() {
+    const {
+      showLoginBtn,
+      showRegisterBtn,
+      logoutBtn,
+      loginSubmit,
+      registerSubmit,
+      showRegisterLink,
+      showLoginLink
+    } = domElements;
+
+    showLoginBtn.addEventListener("click", () => this.toggleAuthForms('login'));
+    showRegisterBtn.addEventListener("click", () => this.toggleAuthForms('register'));
+    showRegisterLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.toggleAuthForms('register');
+    });
+    showLoginLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.toggleAuthForms('login');
+    });
+    logoutBtn.addEventListener("click", auth.logoutUser.bind(auth));
+    loginSubmit.addEventListener("click", auth.loginUser.bind(auth));
+    registerSubmit.addEventListener("click", auth.registerUser.bind(auth));
+  },
+
+  toggleAuthForms(formToShow) {
+    const { loginForm, registerForm } = domElements;
+    if (formToShow === 'login') {
+      loginForm.style.display = "block";
+      registerForm.style.display = "none";
+    } else {
+      registerForm.style.display = "block";
+      loginForm.style.display = "none";
+    }
+  },
+
+  updateUIForAuth() {
+    const {
+      authSection,
+      searchSection,
+      eventsSection,
+      favoritesSection,
+      welcomeMsg,
+      showLoginBtn,
+      showRegisterBtn,
+      logoutBtn,
+      eventsList,
+      favoritesList
+    } = domElements;
+
+    if (appState.currentUser) {
+      authSection.style.display = "none";
+      searchSection.style.display = "block";
+      eventsSection.style.display = "block";
+      favoritesSection.style.display = "block";
+      welcomeMsg.textContent = `Welcome, ${appState.currentUser}`;
+      showLoginBtn.style.display = "none";
+      showRegisterBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+      
+      // Initialize these sections if they exist
+      if (typeof initEvents === 'function') initEvents();
+      if (typeof initFavorites === 'function') initFavorites();
+    } else {
+      authSection.style.display = "block";
+      this.toggleAuthForms('login');
+      searchSection.style.display = "none";
+      eventsSection.style.display = "none";
+      favoritesSection.style.display = "none";
+      welcomeMsg.textContent = "";
+      showLoginBtn.style.display = "inline-block";
+      showRegisterBtn.style.display = "inline-block";
+      logoutBtn.style.display = "none";
+    }
+  }
+};
+
+// Initialize App
 function init() {
-  bindEvents();
-  loadUserFromStorage();
-  loadFavoritesFromStorage();
-  updateUIForAuth();
+  ui.bindEvents();
+  auth.loadUserFromStorage();
+  ui.updateUIForAuth();
 }
 
-// Bind UI events
-function bindEvents() {
-  showLoginBtn.addEventListener("click", () => {
-    loginForm.style.display = "block";
-    registerForm.style.display = "none";
-  });
-
-  showRegisterBtn.addEventListener("click", () => {
-    registerForm.style.display = "block";
-    loginForm.style.display = "none";
-  });
-
-  showRegisterLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    registerForm.style.display = "block";
-    loginForm.style.display = "none";
-  });
-
-  showLoginLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    loginForm.style.display = "block";
-    registerForm.style.display = "none";
-  });
-
-  logoutBtn.addEventListener("click", () => {
-    logoutUser();
-  });
-
-  loginSubmit.addEventListener("click", loginUser);
-  registerSubmit.addEventListener("click", registerUser);
-}
-
-// User Registration
-function registerUser() {
-  const username = registerUsername.value.trim();
-  const password = registerPassword.value.trim();
-  const interests = registerInterests.value.trim();
-
-  registerError.textContent = "";
-
-  if (!username || !password) {
-    registerError.textContent = "Please enter username and password.";
-    return;
-  }
-
-  // Check if user exists
-  if (localStorage.getItem(`user_${username}`)) {
-    registerError.textContent = "Username already exists.";
-    return;
-  }
-
-  const userData = {
-    password,
-    interests: interests ? interests.split(",").map(i => i.trim()) : [],
-    favorites: []
-  };
-
-  localStorage.setItem(`user_${username}`, JSON.stringify(userData));
-
-  alert("Registration successful! Please login.");
-
-  // Reset and show login form
-  registerForm.style.display = "none";
-  loginForm.style.display = "block";
-  registerUsername.value = "";
-  registerPassword.value = "";
-  registerInterests.value = "";
-}
-
-// User Login
-function loginUser() {
-  const username = loginUsername.value.trim();
-  const password = loginPassword.value.trim();
-
-  loginError.textContent = "";
-
-  if (!username || !password) {
-    loginError.textContent = "Please enter username and password.";
-    return;
-  }
-
-  const userDataRaw = localStorage.getItem(`user_${username}`);
-  if (!userDataRaw) {
-    loginError.textContent = "User not found.";
-    return;
-  }
-
-  const userData = JSON.parse(userDataRaw);
-  if (userData.password !== password) {
-    loginError.textContent = "Incorrect password.";
-    return;
-  }
-
-  currentUser = username;
-  saveCurrentUser();
-  loadFavoritesFromStorage();
-  updateUIForAuth();
-
-  loginUsername.value = "";
-  loginPassword.value = "";
-}
-
-// Logout
-function logoutUser() {
-  currentUser = null;
-  saveCurrentUser();
-  updateUIForAuth();
-}
-
-// Save current user to localStorage
-function saveCurrentUser() {
-  if (currentUser) {
-    localStorage.setItem("currentUser", currentUser);
-  } else {
-    localStorage.removeItem("currentUser");
-  }
-}
-
-// Load current user from localStorage
-function loadUserFromStorage() {
-  const savedUser = localStorage.getItem("currentUser");
-  if (savedUser) {
-    currentUser = savedUser;
-  }
-}
-
-// Update UI based on authentication status
-function updateUIForAuth() {
-  if (currentUser) {
-    authSection.style.display = "none";
-    searchSection.style.display = "block";
-    eventsSection.style.display = "block";
-    favoritesSection.style.display = "block";
-
-    welcomeMsg.textContent = `Welcome, ${currentUser}`;
-    showLoginBtn.style.display = "none";
-    showRegisterBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
-
-    // Mostrar uma mensagem nos sections que precisariam das APIs
-    eventsList.innerHTML = "<p>Event functionality would require Ticketmaster API</p>";
-    favoritesList.innerHTML = "<p>Favorites functionality would be available with API</p>";
-  } else {
-    authSection.style.display = "block";
-    loginForm.style.display = "block";
-    registerForm.style.display = "none";
-    searchSection.style.display = "none";
-    eventsSection.style.display = "none";
-    favoritesSection.style.display = "none";
-
-    welcomeMsg.textContent = "";
-    showLoginBtn.style.display = "inline-block";
-    showRegisterBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-  }
-}
-
-// Initialize the app when the DOM is loaded
+// Start the application when DOM is loaded
 document.addEventListener("DOMContentLoaded", init);
