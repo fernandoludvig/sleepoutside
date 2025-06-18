@@ -30,7 +30,8 @@ const domElements = {
 // App State
 const appState = {
   currentUser: null,
-  favorites: []
+  favorites: [],
+  events: [] // Add this to track current events
 };
 
 // Authentication Functions

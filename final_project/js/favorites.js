@@ -1,34 +1,37 @@
-// favorites.js - Favorites functionality
-const favoritesSection = document.getElementById("favoritesSection");
-const favoritesList = document.getElementById("favoritesList");
-
+// favorites.js - Updated for Ticketmaster data
 function initFavorites() {
   loadFavoritesFromStorage();
 }
 
 function loadFavoritesFromStorage() {
-  if (!currentUser) return;
+  if (!appState.currentUser) return;
   
-  const userData = JSON.parse(localStorage.getItem(`user_${currentUser}`));
-  favorites = userData?.favorites || [];
+  const userData = JSON.parse(localStorage.getItem(`user_${appState.currentUser}`));
+  appState.favorites = userData?.favorites || [];
   displayFavorites();
 }
 
 function displayFavorites() {
-  favoritesList.innerHTML = favorites.length > 0 
-    ? favorites.map(fav => `
+  favoritesList.innerHTML = appState.favorites.length > 0 
+    ? appState.favorites.map(fav => `
         <div class="event-card">
+          ${fav.image ? `
+            <div class="event-image">
+              <img src="${fav.image}" alt="${fav.name}" loading="lazy">
+            </div>
+          ` : ''}
           <div class="event-info">
             <h3>${fav.name}</h3>
-            <p><strong>Date:</strong> ${new Date(fav.date).toLocaleDateString()}</p>
-            <a href="${fav.url}" target="_blank" class="ticket-btn">View Tickets</a>
-            <button class="remove-favorite" data-event-id="${fav.id}">Remove</button>
+            <p><strong>Date:</strong> ${new Date(fav.date).toLocaleDateString('pt-BR')}</p>
+            <p><strong>Venue:</strong> ${fav.venue || 'TBD'}</p>
+            <a href="${fav.url}" target="_blank" class="ticket-btn">Ingressos</a>
+            <button class="remove-favorite" data-event-id="${fav.id}">Remover</button>
           </div>
         </div>
       `).join('')
-    : '<p>No favorites yet. Add some events!</p>';
+    : '<p>No favorited events yet. Add some!</p>';
 
-  // Add event listeners to remove buttons
+  // Add event listeners
   document.querySelectorAll('.remove-favorite').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const eventId = e.target.dataset.eventId;
@@ -38,27 +41,31 @@ function displayFavorites() {
 }
 
 function addToFavorites(event) {
-  if (!currentUser) return;
+  if (!appState.currentUser) return;
   
-  const userData = JSON.parse(localStorage.getItem(`user_${currentUser}`));
+  const userData = JSON.parse(localStorage.getItem(`user_${appState.currentUser}`));
   if (!userData.favorites.some(fav => fav.id === event.id)) {
+    const venue = event._embedded?.venues?.[0]?.name || 'TBD';
+    
     userData.favorites.push({
       id: event.id,
       name: event.name,
       date: event.dates.start.dateTime || event.dates.start.localDate,
-      image: event.images.find(img => img.width === 640)?.url || '',
-      url: event.url
+      image: event.images?.find(img => img.width === 640)?.url || event.images?.[0]?.url || '',
+      url: event.url,
+      venue: venue
     });
-    localStorage.setItem(`user_${currentUser}`, JSON.stringify(userData));
+    
+    localStorage.setItem(`user_${appState.currentUser}`, JSON.stringify(userData));
     loadFavoritesFromStorage();
   }
 }
 
 function removeFromFavorites(eventId) {
-  if (!currentUser) return;
+  if (!appState.currentUser) return;
   
-  const userData = JSON.parse(localStorage.getItem(`user_${currentUser}`));
+  const userData = JSON.parse(localStorage.getItem(`user_${appState.currentUser}`));
   userData.favorites = userData.favorites.filter(fav => fav.id !== eventId);
-  localStorage.setItem(`user_${currentUser}`, JSON.stringify(userData));
+  localStorage.setItem(`user_${appState.currentUser}`, JSON.stringify(userData));
   loadFavoritesFromStorage();
 }

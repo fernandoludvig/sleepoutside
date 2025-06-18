@@ -5,3 +5,5 @@ web_modules
 node_modules
 dist
 .env
+final_project/js/config.js
+

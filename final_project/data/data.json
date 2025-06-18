@@ -1,40 +1,669 @@
 {
-  "events": [
-    {
-      "id": "evt1",
-      "name": "Jazz Night Under the Stars",
-      "date": "2023-12-15T19:00:00",
-      "venue": "Downtown Club",
-      "location": "123 Music Ave, Provo",
-      "price": 25.99,
-      "category": "Music",
-      "tags": ["jazz", "live", "music"],
-      "capacity": 150,
-      "organizer": "City Arts Foundation",
-      "description": "An enchanting evening of smooth jazz featuring award-winning local artists in an intimate setting.",
-      "image": "images/jazz-night.jpg",
-      "coordinates": { "lat": 40.2338, "lng": -111.6585 }
-    },
-    {
-      "id": "evt2",
-      "name": "Food Festival 2023",
-      "date": "2023-12-17T11:00:00",
-      "venue": "City Park",
-      "location": "500 Center St, Provo",
-      "price": 15.50,
-      "category": "Food",
-      "tags": ["food", "festival", "local"],
-      "capacity": 500,
-      "organizer": "Provo Culinary Society",
-      "description": "Sample delicious cuisines from 50+ local restaurants and food trucks.",
-      "image": "images/food-fest.jpg",
-      "coordinates": { "lat": 40.2456, "lng": -111.6453 }
-    }
-  ],
-  "categories": {
-    "music": { "name": "Music", "icon": "🎵" },
-    "food": { "name": "Food", "icon": "🍔" },
-    "sports": { "name": "Sports", "icon": "⚽" },
-    "arts": { "name": "Arts", "icon": "🎨" }
+  "_embedded": {
+    "events": [
+      {
+        "id": "1",
+        "name": "Rock in Rio",
+        "dates": {
+          "start": {
+            "localDate": "2025-09-15",
+            "localTime": "19:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Parque Olímpico",
+              "city": {"name": "Rio de Janeiro"},
+              "state": {"stateCode": "RJ"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/rockinrio.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 250,
+            "max": 1200,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "2",
+        "name": "Lollapalooza",
+        "dates": {
+          "start": {
+            "localDate": "2025-03-22",
+            "localTime": "14:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Autódromo de Interlagos",
+              "city": {"name": "São Paulo"},
+              "state": {"stateCode": "SP"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/lollapalooza.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 350,
+            "max": 1500,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "3",
+        "name": "Festival de Jazz",
+        "dates": {
+          "start": {
+            "localDate": "2025-07-10",
+            "localTime": "20:30:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Teatro Municipal",
+              "city": {"name": "Belo Horizonte"},
+              "state": {"stateCode": "MG"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/jazzfestival.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 120,
+            "max": 400,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "4",
+        "name": "Carnaval de Salvador",
+        "dates": {
+          "start": {
+            "localDate": "2025-02-25",
+            "localTime": "10:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Circuito Barra-Ondina",
+              "city": {"name": "Salvador"},
+              "state": {"stateCode": "BA"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/carnaval.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 80,
+            "max": 300,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "5",
+        "name": "Oktoberfest",
+        "dates": {
+          "start": {
+            "localDate": "2025-10-05",
+            "localTime": "18:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Parque da Oktoberfest",
+              "city": {"name": "Blumenau"},
+              "state": {"stateCode": "SC"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/oktoberfest.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 50,
+            "max": 150,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "6",
+        "name": "Festival de Cinema",
+        "dates": {
+          "start": {
+            "localDate": "2025-11-15",
+            "localTime": "09:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Cinearte",
+              "city": {"name": "Curitiba"},
+              "state": {"stateCode": "PR"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/festivalcinema.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 30,
+            "max": 100,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "7",
+        "name": "Show de MPB",
+        "dates": {
+          "start": {
+            "localDate": "2025-08-20",
+            "localTime": "21:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Arena Show",
+              "city": {"name": "Porto Alegre"},
+              "state": {"stateCode": "RS"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/mpbshow.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 90,
+            "max": 250,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "8",
+        "name": "Festival Gastronômico",
+        "dates": {
+          "start": {
+            "localDate": "2025-05-12",
+            "localTime": "11:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Centro de Convenções",
+              "city": {"name": "Fortaleza"},
+              "state": {"stateCode": "CE"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/gastronomia.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 60,
+            "max": 180,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "9",
+        "name": "Feira de Tecnologia",
+        "dates": {
+          "start": {
+            "localDate": "2025-04-08",
+            "localTime": "08:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Centro de Exposições",
+              "city": {"name": "Brasília"},
+              "state": {"stateCode": "DF"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/tecnologia.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 100,
+            "max": 300,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "10",
+        "name": "Festival de Praia",
+        "dates": {
+          "start": {
+            "localDate": "2025-01-20",
+            "localTime": "07:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Praia de Copacabana",
+              "city": {"name": "Rio de Janeiro"},
+              "state": {"stateCode": "RJ"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/praia.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 0,
+            "max": 0,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "11",
+        "name": "Show de Sertanejo",
+        "dates": {
+          "start": {
+            "localDate": "2025-06-18",
+            "localTime": "22:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Arena Sertaneja",
+              "city": {"name": "Goiânia"},
+              "state": {"stateCode": "GO"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/sertanejo.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 150,
+            "max": 500,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "12",
+        "name": "Festival de Inverno",
+        "dates": {
+          "start": {
+            "localDate": "2025-07-25",
+            "localTime": "10:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Praça da Matriz",
+              "city": {"name": "Campos do Jordão"},
+              "state": {"stateCode": "SP"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/inverno.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 40,
+            "max": 120,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "13",
+        "name": "Feira de Artesanato",
+        "dates": {
+          "start": {
+            "localDate": "2025-03-05",
+            "localTime": "09:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Centro Histórico",
+              "city": {"name": "Ouro Preto"},
+              "state": {"stateCode": "MG"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/artesanato.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 0,
+            "max": 0,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "14",
+        "name": "Maratona de Rua",
+        "dates": {
+          "start": {
+            "localDate": "2025-08-30",
+            "localTime": "06:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Avenida Paulista",
+              "city": {"name": "São Paulo"},
+              "state": {"stateCode": "SP"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/maratona.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 80,
+            "max": 80,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "15",
+        "name": "Festival de Teatro",
+        "dates": {
+          "start": {
+            "localDate": "2025-09-10",
+            "localTime": "19:30:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Teatro Amazonas",
+              "city": {"name": "Manaus"},
+              "state": {"stateCode": "AM"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/teatro.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 60,
+            "max": 150,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "16",
+        "name": "Exposição de Arte",
+        "dates": {
+          "start": {
+            "localDate": "2025-04-15",
+            "localTime": "10:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Museu de Arte Moderna",
+              "city": {"name": "Recife"},
+              "state": {"stateCode": "PE"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/arte.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 20,
+            "max": 50,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "17",
+        "name": "Festival de Dança",
+        "dates": {
+          "start": {
+            "localDate": "2025-05-20",
+            "localTime": "20:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Teatro Municipal",
+              "city": {"name": "São Paulo"},
+              "state": {"stateCode": "SP"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/danca.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 70,
+            "max": 200,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "18",
+        "name": "Feira de Livros",
+        "dates": {
+          "start": {
+            "localDate": "2025-10-12",
+            "localTime": "09:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Bienal do Livro",
+              "city": {"name": "Rio de Janeiro"},
+              "state": {"stateCode": "RJ"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/livros.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 0,
+            "max": 0,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "19",
+        "name": "Festival de Vinho",
+        "dates": {
+          "start": {
+            "localDate": "2025-11-05",
+            "localTime": "17:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Vale dos Vinhedos",
+              "city": {"name": "Bento Gonçalves"},
+              "state": {"stateCode": "RS"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/vinho.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 100,
+            "max": 300,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      },
+      {
+        "id": "20",
+        "name": "Reveillon",
+        "dates": {
+          "start": {
+            "localDate": "2025-12-31",
+            "localTime": "22:00:00"
+          }
+        },
+        "_embedded": {
+          "venues": [
+            {
+              "name": "Praia de Copacabana",
+              "city": {"name": "Rio de Janeiro"},
+              "state": {"stateCode": "RJ"}
+            }
+          ]
+        },
+        "images": [
+          {
+            "url": "https://example.com/reveillon.jpg",
+            "width": 640
+          }
+        ],
+        "priceRanges": [
+          {
+            "min": 0,
+            "max": 0,
+            "currency": "BRL"
+          }
+        ],
+        "url": "#"
+      }
+    ]
+  },
+  "page": {
+    "totalElements": 20
   }
 }
