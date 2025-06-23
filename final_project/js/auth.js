@@ -1,7 +1,9 @@
 // auth.js - Authentication functions
+import { appState } from './state.js';
+
+// DOM Elements
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
-const authSection = document.getElementById("authSection");
 const showLoginBtn = document.getElementById("showLoginBtn");
 const showRegisterBtn = document.getElementById("showRegisterBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -18,8 +20,8 @@ const registerError = document.getElementById("registerError");
 const showRegisterLink = document.getElementById("showRegisterLink");
 const showLoginLink = document.getElementById("showLoginLink");
 
-// Bind UI events for authentication
-function bindAuthEvents() {
+// Binds UI Events
+function bindAuthEvents({ onLogin, onLogout }) {
   showLoginBtn.addEventListener("click", () => {
     loginForm.style.display = "block";
     registerForm.style.display = "none";
@@ -42,12 +44,19 @@ function bindAuthEvents() {
     registerForm.style.display = "none";
   });
 
-  logoutBtn.addEventListener("click", logoutUser);
-  loginSubmit.addEventListener("click", loginUser);
+  loginSubmit.addEventListener("click", () => {
+    loginUser();
+    if (appState.currentUser && typeof onLogin === 'function') onLogin();
+  });
+
   registerSubmit.addEventListener("click", registerUser);
+  logoutBtn.addEventListener("click", () => {
+    logoutUser();
+    if (typeof onLogout === 'function') onLogout();
+  });
 }
 
-// User Registration
+// Registration
 function registerUser() {
   const username = registerUsername.value.trim();
   const password = registerPassword.value.trim();
@@ -73,6 +82,7 @@ function registerUser() {
 
   localStorage.setItem(`user_${username}`, JSON.stringify(userData));
   alert("Registration successful! Please login.");
+
   registerForm.style.display = "none";
   loginForm.style.display = "block";
   registerUsername.value = "";
@@ -80,7 +90,7 @@ function registerUser() {
   registerInterests.value = "";
 }
 
-// User Login
+// Login
 function loginUser() {
   const username = loginUsername.value.trim();
   const password = loginPassword.value.trim();
@@ -104,33 +114,40 @@ function loginUser() {
     return;
   }
 
-  currentUser = username;
+  appState.currentUser = username;
   saveCurrentUser();
-  updateUIForAuth();
+
   loginUsername.value = "";
   loginPassword.value = "";
 }
 
 // Logout
 function logoutUser() {
-  currentUser = null;
+  appState.currentUser = null;
   saveCurrentUser();
-  updateUIForAuth();
 }
 
-// Save current user to localStorage
+// Save/load user
 function saveCurrentUser() {
-  if (currentUser) {
-    localStorage.setItem("currentUser", currentUser);
+  if (appState.currentUser) {
+    localStorage.setItem("currentUser", appState.currentUser);
   } else {
     localStorage.removeItem("currentUser");
   }
 }
 
-// Load current user from localStorage
 function loadUserFromStorage() {
   const savedUser = localStorage.getItem("currentUser");
   if (savedUser) {
-    currentUser = savedUser;
+    appState.currentUser = savedUser;
   }
 }
+
+// Export functions
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  loadUserFromStorage,
+  bindAuthEvents
+};

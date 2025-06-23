@@ -1,4 +1,9 @@
-// script.js - Main application controller
+// js/script.js
+
+import './config.js';
+import { initEvents } from './events.js';
+import { initFavorites } from './favorites.js';
+import { appState } from './state.js';
 
 // DOM References
 const domElements = {
@@ -25,13 +30,6 @@ const domElements = {
   showLoginLink: document.getElementById("showLoginLink"),
   eventsList: document.getElementById("eventsList"),
   favoritesList: document.getElementById("favoritesList")
-};
-
-// App State
-const appState = {
-  currentUser: null,
-  favorites: [],
-  events: [] // Add this to track current events
 };
 
 // Authentication Functions
@@ -179,9 +177,7 @@ const ui = {
       welcomeMsg,
       showLoginBtn,
       showRegisterBtn,
-      logoutBtn,
-      eventsList,
-      favoritesList
+      logoutBtn
     } = domElements;
 
     if (appState.currentUser) {
@@ -193,10 +189,11 @@ const ui = {
       showLoginBtn.style.display = "none";
       showRegisterBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
-      
-      // Initialize these sections if they exist
-      if (typeof initEvents === 'function') initEvents();
-      if (typeof initFavorites === 'function') initFavorites();
+
+      // Inicializa eventos e favoritos para usuário logado
+      initEvents();
+      initFavorites();
+
     } else {
       authSection.style.display = "block";
       this.toggleAuthForms('login');
@@ -211,12 +208,9 @@ const ui = {
   }
 };
 
-// Initialize App
-function init() {
+// Inicializa o App
+document.addEventListener("DOMContentLoaded", () => {
   ui.bindEvents();
   auth.loadUserFromStorage();
   ui.updateUIForAuth();
-}
-
-// Start the application when DOM is loaded
-document.addEventListener("DOMContentLoaded", init);
+});
