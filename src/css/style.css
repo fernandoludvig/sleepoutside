@@ -66,9 +66,14 @@ p {
 
 .hero .logo {
   position: absolute;
-  left: calc(50% - 60px);
-  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;      /* antes estava bottom:-15px */
   background-color: white;
+}
+
+.hero .logo--square {
+  display: none;
 }
 
 .logo--square {
