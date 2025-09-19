@@ -27,17 +27,17 @@ function createCartItemElement(item) {
   li.className = "cart-card divider";
 
   // Ensure we have default values if properties are missing
-  const image = item.Images?.[0]?.image || "/images/placeholder.jpg";
+  const image = item.Images?.[0]?.image || "../images/placeholder.jpg";
   const name = item.Name || "Unknown Product";
   const color = item.Colors?.[0]?.ColorName || "Default Color";
   const quantity = item.quantity || 1;
   const price = item.FinalPrice || 0;
 
   li.innerHTML = `
-    <a href="/product_pages/${item.Id}" class="cart-card__image">
+    <a href="../product_pages/${item.Id}" class="cart-card__image">
       <img src="${image}" alt="${name}">
     </a>
-    <a href="/product_pages/${item.Id}">
+    <a href="../product_pages/${item.Id}">
       <h2 class="card__name">${name}</h2>
     </a>
     <p class="cart-card__color">${color}</p>
