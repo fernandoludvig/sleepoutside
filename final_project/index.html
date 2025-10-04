@@ -14,10 +14,11 @@
   <header>
     <a href="#" class="logo">Brazil Events</a>
     <nav>
+      <span id="welcomeMsg"></span>
       <button id="showLoginBtn">Login</button>
       <button id="showRegisterBtn">Register</button>
+      <button id="dashboardBtn" style="display:none;">Dashboard</button>
       <button id="logoutBtn" style="display:none;">Logout</button>
-      <span id="welcomeMsg"></span>
     </nav>
   </header>
 
@@ -91,6 +92,38 @@
         <div class="section-header">
         <h2>My Favorites</h2>
       <div id="favoritesList"></div>
+    </section>
+
+    <section id="dashboardSection" style="display:none;">
+      <div class="section-header">
+        <h2>Dashboard</h2>
+      </div>
+      <div class="dashboard-container">
+        <div class="dashboard-card">
+          <h3>Profile</h3>
+          <div id="userProfile">
+            <p><strong>Username:</strong> <span id="profileUsername"></span></p>
+            <p><strong>Interests:</strong> <span id="profileInterests"></span></p>
+            <p><strong>Member since:</strong> <span id="profileMemberSince"></span></p>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <h3>Statistics</h3>
+          <div id="userStats">
+            <p><strong>Total Favorites:</strong> <span id="totalFavorites">0</span></p>
+            <p><strong>Events Searched:</strong> <span id="eventsSearched">0</span></p>
+            <p><strong>Last Activity:</strong> <span id="lastActivity">Today</span></p>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions">
+            <button id="clearFavoritesBtn" class="action-btn">Clear All Favorites</button>
+            <button id="exportFavoritesBtn" class="action-btn">Export Favorites</button>
+            <button id="updateProfileBtn" class="action-btn">Update Profile</button>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 

@@ -4,6 +4,8 @@ import './config.js';
 import { initEvents } from './events.js';
 import { initFavorites } from './favorites.js';
 import { appState } from './state.js';
+import { bindAuthEvents } from './auth.js';
+import { initDashboard, showDashboardButton, hideDashboardButton } from './dashboard.js';
 
 // DOM References
 const domElements = {
@@ -136,25 +138,21 @@ const ui = {
       showLoginBtn,
       showRegisterBtn,
       logoutBtn,
-      loginSubmit,
-      registerSubmit,
-      showRegisterLink,
-      showLoginLink
+      loginSubmit
     } = domElements;
 
-    showLoginBtn.addEventListener("click", () => this.toggleAuthForms('login'));
-    showRegisterBtn.addEventListener("click", () => this.toggleAuthForms('register'));
-    showRegisterLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.toggleAuthForms('register');
-    });
-    showLoginLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.toggleAuthForms('login');
-    });
     logoutBtn.addEventListener("click", auth.logoutUser.bind(auth));
     loginSubmit.addEventListener("click", auth.loginUser.bind(auth));
-    registerSubmit.addEventListener("click", auth.registerUser.bind(auth));
+    
+    // Use bindAuthEvents from auth.js for form handling
+    bindAuthEvents({
+      onLogin: () => {
+        auth.saveCurrentUser();
+      },
+      onLogout: () => {
+        ui.updateUIForAuth();
+      }
+    });
   },
 
   toggleAuthForms(formToShow) {
@@ -190,6 +188,9 @@ const ui = {
       showRegisterBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
 
+      // Show dashboard button and initialize dashboard
+      showDashboardButton();
+
       // Inicializa eventos e favoritos para usuário logado
       initEvents();
       initFavorites();
@@ -200,10 +201,14 @@ const ui = {
       searchSection.style.display = "none";
       eventsSection.style.display = "none";
       favoritesSection.style.display = "none";
+      document.getElementById('dashboardSection').style.display = "none";
       welcomeMsg.textContent = "";
       showLoginBtn.style.display = "inline-block";
       showRegisterBtn.style.display = "inline-block";
       logoutBtn.style.display = "none";
+
+      // Hide dashboard button
+      hideDashboardButton();
     }
   }
 };
@@ -213,4 +218,5 @@ document.addEventListener("DOMContentLoaded", () => {
   ui.bindEvents();
   auth.loadUserFromStorage();
   ui.updateUIForAuth();
+  initDashboard();
 });

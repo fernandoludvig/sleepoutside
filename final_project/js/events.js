@@ -1,7 +1,7 @@
 // events.js - Ticketmaster API integration
-import { TICKETMASTER_API_KEY } from './config.js';
+import { TICKETMASTER_API_KEY, USE_LOCAL_DATA } from './config.js';
 import { appState } from './state.js';
-import { addToFavorites } from './favorites.js'; // ✅ Certifique-se de que está exportando
+import { addToFavorites } from './favorites.js';
 
 const BASE_URL = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const eventsList = document.getElementById('eventsList');
@@ -25,34 +25,88 @@ async function fetchEvents(keyword = '', city = '') {
     showLoading(true);
     eventsList.innerHTML = '';
 
-    const params = new URLSearchParams({
-      apikey: TICKETMASTER_API_KEY,
-      countryCode: 'BR',
-      size: 12,
-      keyword,
-      locale: 'pt-BR',
-      sort: 'date,asc'
-    });
+    // Try Ticketmaster API first if key is configured
+    if (!USE_LOCAL_DATA && TICKETMASTER_API_KEY !== 'YOUR_TICKETMASTER_API_KEY_HERE') {
+      try {
+        const params = new URLSearchParams({
+          apikey: TICKETMASTER_API_KEY,
+          countryCode: 'BR',
+          size: 12,
+          locale: 'pt-BR',
+          sort: 'date,asc'
+        });
 
-    if (city) {
-      params.append('city', city);
+        if (keyword) {
+          params.append('keyword', keyword);
+        }
+
+        if (city) {
+          params.append('city', city);
+        }
+
+        console.log('Fetching events from Ticketmaster API...');
+        const response = await fetch(`${BASE_URL}?${params}`);
+        
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const events = data._embedded?.events;
+
+        if (!events || events.length === 0) {
+          eventsList.innerHTML = '<p>No events found. Try different search terms.</p>';
+          return;
+        }
+
+        console.log(`Found ${events.length} events from Ticketmaster API`);
+        showApiStatus('live', 'Using Ticketmaster API');
+        displayEvents(events);
+        return;
+
+      } catch (apiError) {
+        console.warn('Ticketmaster API failed, falling back to local data:', apiError.message);
+        // Fall through to local data
+      }
     }
 
-    const response = await fetch(`${BASE_URL}?${params}`);
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    // Fallback to local data
+    console.log('Using local data...');
+    const localData = await fetch('./data/data.json');
+    const data = await localData.json();
+    let events = data._embedded?.events || [];
 
-    const data = await response.json();
-    const events = data._embedded?.events;
+    // Filter by keyword if provided
+    if (keyword) {
+      events = events.filter(event => 
+        event.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
 
-    if (!events || events.length === 0) {
+    // Filter by city if provided
+    if (city) {
+      events = events.filter(event => 
+        event._embedded?.venues?.[0]?.city?.name?.toLowerCase().includes(city.toLowerCase())
+      );
+    }
+
+    if (events.length === 0) {
       eventsList.innerHTML = '<p>No events found. Try different search terms.</p>';
       return;
     }
 
+    console.log(`Found ${events.length} events from local data`);
+    showApiStatus('fallback', 'Using Local Data');
     displayEvents(events);
+
   } catch (error) {
     console.error('Error fetching events:', error);
-    eventsList.innerHTML = `<p>Error loading events: ${error.message}</p>`;
+    eventsList.innerHTML = `
+      <div class="error-message">
+        <p>Error loading events: ${error.message}</p>
+        <p>Please check your API key configuration or try again later.</p>
+      </div>
+    `;
   } finally {
     showLoading(false);
   }
@@ -74,6 +128,32 @@ function showLoading(show) {
   }
 
   loadingElement.style.display = show ? 'block' : 'none';
+}
+
+function showApiStatus(type, message) {
+  let statusElement = document.getElementById('apiStatus');
+  
+  if (!statusElement) {
+    statusElement = document.createElement('div');
+    statusElement.id = 'apiStatus';
+    statusElement.className = `api-status ${type}`;
+    document.body.appendChild(statusElement);
+  }
+  
+  statusElement.className = `api-status ${type}`;
+  statusElement.textContent = message;
+  
+  // Auto-hide after 3 seconds
+  setTimeout(() => {
+    if (statusElement) {
+      statusElement.style.opacity = '0';
+      setTimeout(() => {
+        if (statusElement && statusElement.parentNode) {
+          statusElement.parentNode.removeChild(statusElement);
+        }
+      }, 300);
+    }
+  }, 3000);
 }
 
 function displayEvents(events) {
